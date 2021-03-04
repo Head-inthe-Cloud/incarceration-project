@@ -13,15 +13,19 @@ library(ggplot2)
 library("maps")
 ```
 
-## Section 2.1 #1
+## Problem Domain -- Incarceration Rate in the US 
+
+Our group is choosing to focus on Incarceration in the United States, specifically we will be focusing on economic status and geographic location as they relate to incarceration rate. In the United States, on average, every 1 in 100 adults are incarcerated (Bertram). The United States incarcerates the most people world wide, with 1 in every 5 people incarcerated around the world being in the US. Given that the US incarceration rate is so high, it can be imagined that there might be certain factors contributing to this.
+
+We will work to analyze data sets that pertain to incarceration rates in different socio-economic areas, as well as looking at crimes in cities across the US. A 2015 report found that “people ages 27-42 had a median annual income of $19,185 prior to incarceration, a figure that is 41 percent less than non-incarcerated people of a similar age”(Levere). Not many studies have been done regarding this topic so it will be interesting to see what our research into these data sets will uncover. We are also interested in looking at the particular crimes committed in geographic locations and see how they compare to different income communities. For example, how do affluent neighborhood crimes compare to crimes committed in low income communities? We are interested to see the crimes committed in different cities and look at how they vary across the United States. This will give us a deeper understanding of incarceration in the US and how different communities may be affected by it.
+
+
+## Data Description
 
 The datasets detail raw statistics such as income in cities and counties across the United States, crime statistics in Washington, and incarcerated populations by state.
 
-## Section 2.1 #2
-
 Most of these datasets come from [Kaggle](https://www.kaggle.com/), an online data science environment where numerous data sets are published for free use. The exception is our “Criminal Justice Data Book” set, which comes from [Data.gov](https://www.data.gov/), a government hosted website.
 
-## Section 2.1 #3
 
 The crime dataset looks something like this:
 ```{r sample, echo=F}
@@ -37,7 +41,6 @@ head(modified_income_df)
 
 ```
 
-## Section 2.1 #4
 
 Our modified income dataframe is relatively straightforward, giving secondary statistics such as the mean, median and standard deviation of
 each respective county in Washington. sum_w refers to the number of houses sampled per county.
@@ -48,7 +51,7 @@ Our crime in 2016 dataframe is a bit more confusing, but it becomes more readabl
 - and POP refers to total population (including the incarcerated).
 
 
-## Section 2.2 #1 
+## Summary Analysis
 
 For the crime data frame, we took the mean values for each age group. Then we went county by county gathering mean, median, min, and max for both Male and Female. For this we used the POP_F_TOTAL and POP_M_TOTAL column data. 
 
@@ -96,7 +99,7 @@ Washington State Statistics By County:
 print(WA_counties_income)
 ```
 
-## Section 2.2 #2
+## Summary Plots
 
 ```{r, echo=F}
 plot(jail_wa_plot)
@@ -128,7 +131,7 @@ plot(top_incomes_plot)
 In this income graph, there are a few counties with no data. This missing data could be due to a plethora of reasons, such as maybe a low population in said county, or simply not enough information. Additionally, Douglas county is missing daily average jail population data. We aren't too sure what might result in this, but possibly poor reporting or large swathes of missing information.
 
 
-## Section 2.3
+## Question Analyses
 
 ### Are people of different economic status punished by law differently in the state of Washingtion? 
 For this questions we are going to be looking at how average sentence time compares to the median incomes in that same county. We chose to use median incomes to avoid outliers messing with the calculations.
