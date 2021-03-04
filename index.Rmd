@@ -1,0 +1,247 @@
+---
+title: "Exploratory Report"
+author: "Patrick Cheng, Erica Gordy, William Siauw, Joel Yang"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r setup, include=FALSE}
+source("analysis.R")
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library("maps")
+```
+
+## Section 2.1 #1
+
+The datasets detail raw statistics such as income in cities and counties across the United States, crime statistics in Washington, and incarcerated populations by state.
+
+## Section 2.1 #2
+
+Most of these datasets come from [Kaggle](https://www.kaggle.com/), an online data science environment where numerous data sets are published for free use. The exception is our “Criminal Justice Data Book” set, which comes from [Data.gov](https://www.data.gov/), a government hosted website.
+
+## Section 2.1 #3
+
+The crime dataset looks something like this:
+```{r sample, echo=F}
+
+slice_max(crime_2016_total, POP_TOTAL, n = 5)
+
+```
+
+The income dataset looks something like this:
+```{r, echo=F}
+
+head(modified_income_df)
+
+```
+
+## Section 2.1 #4
+
+Our modified income dataframe is relatively straightforward, giving secondary statistics such as the mean, median and standard deviation of
+each respective county in Washington. sum_w refers to the number of houses sampled per county.
+
+Our crime in 2016 dataframe is a bit more confusing, but it becomes more readable once the abbreviations are understood.
+- PDP refers to prison admits,
+- JDP refers to jail admits,
+- and POP refers to total population (including the incarcerated).
+
+
+## Section 2.2 #1 
+
+For the crime data frame, we took the mean values for each age group. Then we went county by county gathering mean, median, min, and max for both Male and Female. For this we used the POP_F_TOTAL and POP_M_TOTAL column data. 
+
+For the income data frame, we began by looking at national data. We also added a column so that we could see the county and state names together. We looked at mean, median, min, and max data nationally and then focused on WA state, repeating the same stats for WA counties. 
+
+Below are some of the most relevant statistics from the data sets. 
+Crime Data in WA state:
+
+Mean Female Incarcerated
+```{r, echo=F}
+print(mean_F_total)
+```
+Mean Male Incarcerated
+```{r, echo=F}
+print(mean_M_total)
+```
+County with the Most Female Incarcerated
+```{r, echo=F}
+print(max_county_name_F)
+```
+County with the Most Male Incarcerated
+```{r, echo=F}
+print(max_county_name_M)
+```
+County with the Least Female Incarcerated
+```{r, echo=F}
+print(min_county_name_F)
+```
+County with the Least Male Incarcerated
+```{r, echo=F}
+print(min_county_name_M)
+```
+
+Income Data: 
+Mean National Income:
+```{r, echo=F}
+print(mean_national_income)
+```
+Washington State Statistics:
+```{r, echo=F}
+print(WA_state_income)
+```
+Washington State Statistics By County:
+```{r, echo=F}
+print(WA_counties_income)
+```
+
+## Section 2.2 #2
+
+```{r, echo=F}
+plot(jail_wa_plot)
+```
+
+```{r, echo=F}
+plot(jail_density_plot)
+```
+
+```{r, echo=F}
+plot(top10_jailrate_plot)
+```
+
+
+```{r, echo=F}
+plot(income_wa_plot)
+
+```
+```{r, echo=F}
+plot(income_density_plot)
+```
+
+```{r, echo=F}
+plot(top_incomes_plot)
+```
+
+### Outliers
+
+In this income graph, there are a few counties with no data. This missing data could be due to a plethora of reasons, such as maybe a low population in said county, or simply not enough information. Additionally, Douglas county is missing daily average jail population data. We aren't too sure what might result in this, but possibly poor reporting or large swathes of missing information.
+
+
+## Section 2.3
+
+### Are people of different economic status punished by law differently in the state of Washingtion? 
+For this questions we are going to be looking at how average sentence time compares to the median incomes in that same county. We chose to use median incomes to avoid outliers messing with the calculations.
+
+Here is some info about the county with the highest income. 
+```{r, echo=F}
+head(max_income_data)
+```
+Here is some info about the county with the lowest income. 
+```{r, echo=F}
+head(min_income_data)
+```
+Here is some info about the county with the highest sentence time. 
+```{r, echo=F}
+head(max_sentence_data)
+```
+Here is some info about the county with the lowest sentence time. 
+```{r, echo=F}
+head(min_sentence_data)
+```
+
+We want to see if higher income counties have low sentence times and vice versa about low income counties. In order to do this we put the data we needed into a dataframe and produced some charts to help visualize the data. 
+
+```{r, echo=F}
+head(time_inc_df)
+```
+
+Below is a scatter plot showing the average sentence time and median income plotted together.  
+```{r, echo=F}
+plot(avg_sent_med_income_plot)
+```
+
+After looking at the data and the plot, it is clear to see that the max sentence time (Island County) is not the same as the lowest income county (Clallam County). However, the min sentence time and max income are both the same county (Ferry County). This could be because of the crimes committed there, the race of the people (which affects sentencing whether we like it or not), or if people payed fines instead of jail time. 
+
+### How is the relationship between the rate of people getting arrested and the rate of people being sentenced to prison affected by economic status in the state of Washington?
+
+When an individual is arrested, it doesn't always mean he or she is going to jail or prison because it depends on the crime committed, and if the individual has the financial ability to pay the fine or bail. In this case, we expect counties with better economic status (estimated by income median) to have a smaller prison-arrest ratio -- the number of prison admissions compared to number of arrests -- because people in richer counties are more likely to have the ability to pay the fine or bail instead of serving their sentence time in prison.
+
+The rate of people getting arrested is the number of total people arrested in a year divided by total population of the county. The rate of prison sentence is the number of total prison admission in a year divided by total population of the county.
+
+The relationship between the arrest rate and prison sentence rate in a certain county is calculated by dividing the total number of prison admission in a year by total number of people arrested in that year. Then I compare the result to the median income of the county.
+
+```{r, echo = F}
+arrest_vs_prison_table <- arrest_vs_prison_data %>% 
+  select(county, prison_to_arrest_rate, income_median) %>%
+  arrange(desc(prison_to_arrest_rate))
+
+correlation <- cor(arrest_vs_prison_table$prison_to_arrest_rate,
+                   arrest_vs_prison_table$income_median)
+
+arrest_vs_prison_table
+
+arrest_vs_prison_table <- arrest_vs_prison_table %>%
+  filter(county != "ferry")
+
+correlation_modified <- 
+  cor(arrest_vs_prison_table$prison_to_arrest_rate,
+      arrest_vs_prison_table$income_median)
+```
+
+```{r, echo=F}
+plot(arrest_vs_prison_by_median_plot)
+```
+
+
+The correlation coefficient between prison-arrest rate and income median is `r correlation`. It indicates a moderate negative relationship between the prison-arrest rate and the median income. However, Ferry County appears to be an outlier with a exceptionally high prison-arrest rate, which skews the result to the negative side. After removing the outlier, the new correlation coefficient is `r correlation_modified`, which is less negative than the previous result. This means in a certain county, the higher the income median is, the less likely one is going to be sentenced to prison after being arrested.
+
+
+
+### How does the economic status of residents in a given county correlate with the incarceration rate in the state of Washington?
+
+For this question, we wanted to examine if there were any correlations between a county's mean income and it's rate of incarceration.
+
+In order to answer this question, we simply compared the two maps exploring economic status in Washington to the map exploring incarceration across Washington. We also joined the 2 datasets themselves in order to examine if there was indeed a correlation between the two variables.
+
+```{r,echo=F}
+county_income_incarceration<-county_income_incarceration %>% slice(1:20) %>% drop_na()
+jail_wa_plot
+plot(income_wa_plot)
+correlation_income_incarceration <- cor(county_income_incarceration$Mean, county_income_incarceration$jail_rate)
+```
+
+It looks like there is a loose inverse correlation between a county's average income and it's incarceration rate. For instance, The correlation coefficient between a county's average income and its incarceration rate is `r correlation_income_incarceration`. As the correlation coefficient shows, as a county's average income increases, for the most part its rate of incarceration will decrease, with a strength of roughly 0.2.
+
+With this information, future studies might be conducted regarding this correlation. Why is it that roughly speaking, poorer counties tend to have larger rates of incarceration? Is this out of desperation, lack of opportunity? Is this a cultural aspect? Hopefully more light can be shed in the future regarding this connection.
+
+Admittedly, there are some shortcomings with this specific analysis. For one, we only compared counties in Washington state, this correlation might not hold true in other parts of the country, or even the rest of the world. Furthermore, our dataset regarding income had many missing data points for some counties, as a result, there are some patches in our graphs, which might be misrepresentative. Furthermore, we decided to focus on average income in this analysis. Averages are much more susceptible to outliers, such as incredibly rich or poor people in this case. As a result, such people could have skewed our data and findings. We decided to focus on averages as they are much easier to compute, when given an existing average. While analyzing county medians might be more representative, I feel like taking the average of medians might not be as informative or even concrete.
+
+
+### How does the type of crime committed relate to the geographic location of the crime and the economic status of the area in the state of Washington?
+
+Not only did we want to focus on incarcerated populations, we wanted to see what factors led to them. Overpolicing and arrests in different classes of counties appeared to be a good lead. By "economic status of the area", we referred to the mean income of each county, which, in hindsight, may have inflated the incomes of richer counties. For the "type of crime", we used the crimes listed in the codebook, filtering out crimes that had a negligibly low proportion in comparison to other crimes (e.g. arson).
+
+To answer this, we created two plots. In order to compare areas of higher income with areas of lower income, one plot listed counties with more than $75,000/year mean income, and the other listed counties with less than \$50,000/year. We first joined the Washington county income dataset with the Washington crime dataset, getting the crime proportions by dividing the amount of each crime committed by the total amount of crimes committed. We then filtered out crimes with occurrences of less than 2%, which also assured we got the same types of crimes for both plots.
+
+Below are the data frames that depict the most and least affluent counties by crime proportions, respectively:
+
+```{r, echo=F}
+head(county_crime_over_75k_proportion)
+```
+
+```{r, echo=F}
+head(county_crime_under_50k_proportion)
+```
+
+Below are the plots for these data frames:
+
+```{r,echo=F}
+plot(lowest_incomes_plot)
+```
+
+```{r,echo=F}
+plot(highest_incomes_plot)
+```
+
+Perhaps this analysis was doomed from the beginning. As mentioned before, counties were ranked based on mean income rather than median income, which may have misincluded some counties as being more affluent than others. "Group B violations" were by far the most common crime for every county, but what exactly is a "Group B violation"? It turns out that category is extremely broad. According to the code book, Group B crimes include "bad checks, curfew/loitering/vagrancy violations, disorderly conduct, driving under the influence, drunkenness, family offenses-nonviolent, liquor law violations, peeping tom, runaway, trespass of real property, all other offenses that are not Group A offenses". Normally we would wipe this from the plot altogether, but the crimes that are included in this list are relevant to our ultimate question of overpolicing in certain areas, putting us stuck between a rock and a hard place. If there is anything to take away from these plots, it would be that the arrest rates for theft appear to be consistently higher in lower income counties, but even that is overshadowed by the fact that theft covers everything from embezzlement to simple larceny. Ultimately, we believe not that these data are misinformative, but rather that they are ambiguous.
