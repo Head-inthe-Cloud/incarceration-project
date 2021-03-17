@@ -4,7 +4,7 @@ Authors: Patrick Cheng, Erica Gordy, William Siauw, Joel Yang
 **Published report:** https://info201b-wi21.github.io/project-Incarceration-LabBB-4/index.html
 
 **Interactive App:**
-https://volcore.shinyapps.io/project-Incarceration-LabBB-4/
+https://volcore.shinyapps.io/project-Incarceration-LabBB-4/ 
 
 ## problem domain
  Our group is choosing to focus on Incarceration in the United States, specifically we will be focusing on economic status and geographic location as they relate to incarceration rate. In the United States, on average, every 1 in 100 adults are incarcerated (Bertram). The United States incarcerates the most people world wide, with 1 in every 5 people incarcerated around the world being in the US. Given that the US incarceration rate is so high, it can be imagined that there might be certain factors contributing to this.
