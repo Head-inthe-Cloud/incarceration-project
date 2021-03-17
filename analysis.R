@@ -45,7 +45,7 @@ modified_income_df <- wa_income_df %>%
   group_by(County) %>%
   summarize(Mean = mean(Mean),
          Median = mean(Median, na.rm = T),
-         Stdev = mean(Stdev),
+         "Standard Deviation" = mean(Stdev),
          sum_w = mean(sum_w))
 
 # No median value for mason, so I used mean instead
@@ -54,7 +54,7 @@ modified_income_df[modified_income_df$County=="mason", "Median"] <-
   modified_income_df %>%
   filter(County == "mason") %>%
   pull(Mean)
-
+names(modified_income_df)[4] <- "Standard Deviation"
   
 
 # Section 2.2 #1
@@ -163,7 +163,7 @@ income_sample <- modified_income_df
 # Graph/Plot #1
 wa_income_data <- income_df %>% filter(State_Name == "Washington") %>% 
   group_by(County) %>% 
-  summarise(Mean = round(mean(Mean))) %>% 
+  summarise(Mean = round(mean(Mean)), Median = mean(Median), Stdev = mean(Stdev)) %>% 
   unique() %>% 
   mutate(County = tolower(County))
 
@@ -291,7 +291,7 @@ arrest_vs_prison_data <- crime_2016_total %>%
          prison_to_arrest_rate = PDP_TOTAL/total_arrest,
          income_median = modified_income_df$Median,
          income_mean = modified_income_df$Mean,
-         income_sd = modified_income_df$Stdev)
+         income_sd = modified_income_df$`Standard Deviation`)
 
 # plot
 # should see warnings: removed 2 rows containing missing values
@@ -420,4 +420,60 @@ highest_incomes_plot <- ggplot(data = highest_incomes_long) +
     y = "Proportion of Crime"
   )
 
+county_crime <- mutate(wa_income_data, county = tolower(County)) %>%
+  left_join(crime_2016_df, by = "county") %>%
+  select(County, Mean, Median,Stdev, starts_with("ARN"))
+
+county_crime_proportion <- county_crime %>%
+  summarize(County,
+            Mean,
+            Median,
+            Stdev,
+            arson_proportion = ARN_ARSON / ARN_TOTAL,
+            assault_proportion = ARN_ASSAULT / ARN_TOTAL,
+            bribery_proportion = ARN_BRIBERY / ARN_TOTAL,
+            burglary_proportion = ARN_BURGLARY / ARN_TOTAL,
+            destruction_property_proportion = ARN_DESTPROP / ARN_TOTAL,
+            drug_violation_proportion = ARN_DRUGVIOL / ARN_TOTAL,
+            extortion_proportion = ARN_EXTORTION / ARN_TOTAL,
+            forgery_proportion = ARN_FORGERY / ARN_TOTAL,
+            forced_sex_proportion = ARN_FSEX / ARN_TOTAL,
+            gambling_violation_proportion = ARN_GAMBVIOL / ARN_TOTAL,
+            group_b_proportion = ARN_GROUP_B / ARN_TOTAL,
+            human_traffcking_proportion = ARN_HTRFFCKNG / ARN_TOTAL,
+            kidnap_proportion = ARN_KIDNAP / ARN_TOTAL,
+            manslaughter_proportion = ARN_MNSLGHTR / ARN_TOTAL,
+            murder_proportion = ARN_MURDER / ARN_TOTAL,
+            non_forced_sex_proportion = ARN_NFSEX / ARN_TOTAL,
+            porn_proportion = ARN_PORN / ARN_TOTAL,
+            prostitution_proportion = ARN_PROST / ARN_TOTAL,
+            robbery_proportion = ARN_ROBBERY / ARN_TOTAL,
+            theft_proportion = ARN_THEFT / ARN_TOTAL,
+            violation_no_contact_proportion = ARN_VIOLNCO / ARN_TOTAL,
+            weapons_violation_proportion = ARN_WEAPVIOL / ARN_TOTAL) %>%
+  rename(
+    "Arson" = arson_proportion,
+    "Assault" = assault_proportion,
+    "Bribery" = bribery_proportion,
+    "Burglary" = burglary_proportion,
+    "Destruction of Property" = destruction_property_proportion,
+    "Drug Violation" = drug_violation_proportion,
+    "Extortion" = extortion_proportion,
+    "Forgery" = forgery_proportion,
+    "Forced Sex" = forced_sex_proportion,
+    "Gambling" = gambling_violation_proportion,
+    "Group B" = group_b_proportion,
+    "Human Trafficking" = human_traffcking_proportion,
+    "Kidnapping" = kidnap_proportion,
+    "Manslaughter" = manslaughter_proportion,
+    "Murder" = murder_proportion,
+    "Non Forced Sex" = non_forced_sex_proportion,
+    "Pornography" = porn_proportion,
+    "Prostitution" = prostitution_proportion,
+    "Robbery" = robbery_proportion,
+    "Theft" = theft_proportion,
+    "Violation of No Contact" = violation_no_contact_proportion,
+    "Weapons Violation" = weapons_violation_proportion
+  ) %>%
+  select_if(~any(. > 0.02))
 

@@ -1,8 +1,12 @@
-# (Project domain)  --- Incarceration rate
+# Project domain  --- Incarceration rate
 Authors: Patrick Cheng, Erica Gordy, William Siauw, Joel Yang
-Group number: BB-4
 
-## (problem domain)
+**Published report:** https://info201b-wi21.github.io/project-Incarceration-LabBB-4/index.html
+
+**Interactive App:**
+https://volcore.shinyapps.io/project-Incarceration-LabBB-4/
+
+## problem domain
  Our group is choosing to focus on Incarceration in the United States, specifically we will be focusing on economic status and geographic location as they relate to incarceration rate. In the United States, on average, every 1 in 100 adults are incarcerated (Bertram). The United States incarcerates the most people world wide, with 1 in every 5 people incarcerated around the world being in the US. Given that the US incarceration rate is so high, it can be imagined that there might be certain factors contributing to this.
 	We will work to analyze data sets that pertain to incarceration rates in different socio-economic areas, as well as looking at crimes in cities across the US. A 2015 report found that “people ages 27-42 had a median annual income of $19,185 prior to incarceration, a figure that is 41 percent less than non-incarcerated people of a similar age”(Levere). Not many studies have been done regarding this topic so it will be interesting to see what our research into these data sets will uncover. We are also interested in looking at the particular crimes committed in geographic locations and see how they compare to different income communities. For example, how do affluent neighborhood crimes compare to crimes committed in low income communities? We are interested to see the crimes committed in different cities and look at how they vary across the United States. This will give us a deeper understanding of incarceration in the US and how different communities may be affected by it.
 
@@ -10,7 +14,7 @@ https://www.prisonpolicy.org/blog/2020/01/16/percent-incarcerated/
 
 https://prosperitynow.org/blog/new-pipeline-poverty-prison
 
-## (analysis questions)
+## analysis questions
 1. Are people of different economic status punished by law differently?
     - The law determines a range for the sentence time depending on the crime as well as the criminal history of the accused. However, it is also influenced by the prosecutor, defense attorneys and judges. We believe the length of prison sentence time, which will be analyzed in our datasets, could reflect the degree of punishment and its relation to race.
 2. How are the rates of people arrested and the rates of people who actually are sentected and go to prison affected by economic status? How do they compare to each other?
@@ -21,7 +25,7 @@ https://prosperitynow.org/blog/new-pipeline-poverty-prison
    - We don’t mean to imply that “certain crimes tend to happen in certain areas”, but we would like to highlight the difference in blue-collar vs. white-collar crimes so that we can better make the connection to our second question, which discusses bail.
 
 
-## (data sets)
+## data sets
 
 Your project will need to analyze at least two different data of your choosing related to your problem domain. The project will analyze a "mash-up" of these data sets, considering the relationship between them. While your final project will only need to make use of two data sets, for this proposal you should identify at least three potential data sets (in case one ends up not working out well)!
 
@@ -78,15 +82,3 @@ Your proposal must include a list of at least three (3) potential data sets for 
 
 
 
-# Submitting
-In order to submit your project proposal:
-
-1. Confirm that you've successfully completed the proposal (e.g., that you've completed all the sections and provided all of the required information).
-
-Please proofread your report! Make sure there aren't any half finished sentences or egregious typos, and that overall it is cleanly formatted and readable. It should be in better condition than these assignment write-ups! Moreover, since there are multiple people on your team to read it over, you should definitely have caught and fixed any mistakes
-
-2. Have one person add, commit, and push the completed proposal and the downloaded data sets to your GitHub repository. While it's fine if only one person pushes the work, we expect all group members to participate/contribute to writing the proposal!
-
-3. Submit the URL of your GitHub Repository as your assignment submission on Canvas (this page, at the top).
-
-**Since this is a group project, only one person needs to submit the link via Canvas.**
